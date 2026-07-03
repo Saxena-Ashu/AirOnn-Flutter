@@ -15,7 +15,7 @@ class FlightDataSource extends DataGridSource {
 
   final List<Flight> _allFlights;
   List<Flight> _filteredFlights;
-  String _selectedCallsign;
+  final String _selectedCallsign;
   final Function(Flight) onFlightSelected;
 
   List<DataGridRow> _rows = [];
@@ -51,7 +51,6 @@ class FlightDataSource extends DataGridSource {
 
   void search(String keyword) {
     List<Flight> searchedFlights;
-    print(Flight);
 
     if (keyword.isEmpty) {
       searchedFlights = List.from(_allFlights);
@@ -86,7 +85,7 @@ class FlightDataSource extends DataGridSource {
     final bool isSelected = callsign == _selectedCallsign;
 
     return DataGridRowAdapter(
-      color: isSelected ? Colors.amber.withOpacity(0.4) : null,
+      color: isSelected ? Colors.amber.withValues(alpha: 0.4) : null,
       cells: List.generate(row.getCells().length, (index) {
         final cell = row.getCells()[index];
         return GestureDetector(
