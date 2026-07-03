@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import '../models/flight_model.dart';
+import 'i_flight_repository.dart';
 
-class FlightRepository {
+class FlightRepository implements IFlightRepository {
   final Dio _dio = Dio();
 
   static const String _clientId = String.fromEnvironment('OPENSKY_CLIENT_ID');
