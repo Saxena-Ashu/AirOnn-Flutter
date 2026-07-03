@@ -2,10 +2,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/repositories/flight_repositories.dart';
 import 'flight_event.dart';
 import 'flight_state.dart';
-import '../../data/repositories/i_flight_repository.dart';
 
 class FlightBloc extends Bloc<FlightEvent, FlightState> {
-  final IFlightRepository repository;
+  final FlightRepository repository;
 
   FlightBloc({required this.repository}) : super(FlightInitial()) {
     on<LoadFlightsEvent>((event, emit) async {
