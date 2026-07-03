@@ -4,15 +4,19 @@ import '../models/flight_model.dart';
 class FlightRepository {
   final Dio _dio = Dio();
 
-  // Helper method: Authenticates with OpenSky and fetches a temporary access token
+  static const String _clientId = String.fromEnvironment('OPENSKY_CLIENT_ID');
+  static const String _clientSecret = String.fromEnvironment(
+    'OPENSKY_CLIENT_SECRET',
+  );
+
   Future<String> _getAccessToken() async {
     try {
       final response = await _dio.post(
         'https://auth.opensky-network.org/auth/realms/opensky-network/protocol/openid-connect/token',
         data: {
           'grant_type': 'client_credentials',
-          'client_id': 'saxena_ashu-api-client',
-          'client_secret': 'Zz0u0gT3d5t6mJLJj7hxEGalrIfo7snv',
+          'client_id': _clientId,
+          'client_secret': _clientSecret,
         },
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
@@ -23,7 +27,6 @@ class FlightRepository {
     }
   }
 
-  // Main tracking method
   Future<List<Flight>> fetchLiveFlights() async {
     try {
       final token = await _getAccessToken();
@@ -35,11 +38,7 @@ class FlightRepository {
 
       if (response.statusCode == 200) {
         final List<dynamic> flights = response.data['states'] ?? [];
-
-        return flights
-            //.where((state) => state[5] != null && state[6] != null)
-            .map((state) => Flight.fromRawArray(state))
-            .toList();
+        return flights.map((state) => Flight.fromRawArray(state)).toList();
       }
 
       throw Exception("Failed to load flights");
