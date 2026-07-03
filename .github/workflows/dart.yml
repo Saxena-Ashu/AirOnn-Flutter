@@ -23,4 +23,4 @@ jobs:
         run: flutter analyze
 
       - name: Run tests
-        run: flutter test
+        run: flutter test --dart-define=OPENSKY_CLIENT_ID=${{ secrets.OPENSKY_CLIENT_ID }} --dart-define=OPENSKY_CLIENT_SECRET=${{ secrets.OPENSKY_CLIENT_SECRET }}
